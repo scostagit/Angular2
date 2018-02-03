@@ -1,6 +1,25 @@
-<div class="jumbotron">
-  <h1 class="text-center">Alurapic</h1>
-</div>
-<div class="container">
- <foto *ngFor="let foto of fotos" url="{{foto.url}}" titulo="{{foto.titulo}}"></foto>
-</div>
+<!--
+    Single Page Application (SPA) 
+
+    Uma Single Page Application (SPA) ou "Aplicação de Página Única" no português, é aquela que não recarrega
+    durante o uso e geralmente já carrega todos os scripts e CSS's de que precisa no seu primeiro carregamento.
+    O usuário pode realizar uma série de tarefas sem que a página recarregue. Se você é novo nessa abordagem, 
+    deve pensar assim: "Flávio, como assim não recarrega? Quer dizer que colocamos o conteúdo de todas as 
+    páginas em uma só? Não ficará confuso?". Se eu realmente captei sua dúvida, sim, realmente ficará confuso. 
+    E é por isso que em SPA não colocamos tudo em uma página apenas, criamos algo muito semelhante a páginas 
+    para realizar essa separação.
+
+    Em SPA, a página index.html é carregada com todos os scripts e CSS's, mas mediante as ações do usuário, 
+    outras páginas são inseridas dinamicamente no corpo de index.html, através de Ajax. Quando o usuário 
+    acessar a página B.html, por exemplo, realizamos uma requisição Ajax para essa página e manipulamos o 
+    DOM de index.html para inserir o conteúdo de B.html. Se acessarmos a página C.html, removemos o conteúdo 
+    de B.html e inserimos o conteúdo de C.html. Por que eu usei o termo "semelhante"? Porque essas páginas 
+    não possuem as tags head, nem body, e, para serem exibidas precisam ser incluídas como conteúdo da página 
+    index.html. Exemplos de SPA são o Gmail e o Inbox: quando você apaga um e-mail ou inicia a escrita de um 
+    novo, sua página recarrega (fica em branco aguardando carregamento)? Claro que não.
+
+    Pode parecer trabalhoso realizar todo esse trabalho, mas SPA's fornecem uma experiência do usuário parecida 
+    com aplicativos nativos, como o Gmail. Dependendo da sua aplicação, esse comportamento pode ser interessante. 
+    Bom, conversa é barata, vamos ver como criar uma SPA com Angular!
+ -->
+ <router-outlet></router-outlet>
