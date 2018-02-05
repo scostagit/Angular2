@@ -11,13 +11,59 @@
                                     Nova foto
                                 </a>
                             </span>
+                            <!--===============================================================================
+                                 variável local 
+                                ===============================================================================
+                                 campo para filtrar pelo titulo 
+                                o Angular pertimir a criação de um filtro por varial local. no caso
+                                abaixo #textoProcurado será nossa varial local para filtrar o conteudo
+                                da pesquisa.
+                                Reforçando o entendimento de uma variável local de template
+                                Uma variável local de um template é uma maneira de movermos dados entre elementos. Contudo, seu valor depende do contexto. O valor da variável é o elemento no qual ela é adicionada:
+
+                                <input class="form-control" #textoProcurado  placeholder="filtrar pelo título da foto">
+                                No exemplo acima, #textoProcurado é o elemento, ou seja, o input. Podemos acessar o elemento em qualquer lugar do nosso template por meio dessa variável.
+
+                                Por fim, se a sintaxe com # não lhe agradou, é possível declarar a variável como var-. Vejamos o exemplo anterior modificado:
+
+                                <input class="form-control" var-textoProcurado  placeholder="filtrar pelo título da foto">
+                                O resultado é o mesmo!
+
+                                exemplo:
+                                Do jeito que foi declarado, a variável #textoProcurado sempre apontará para o input. Assim, por meio da interpolação 
+                                com {{textoProcurado}} iremos exibir seu valor. Contudo podemos digitar o que for que nada será exibido. 
+                                Isso acontece porque Angular só atualizará a view em resposta a um evento assíncrono. Veja, evento! 
+                                Sendo assim, podemos fazer um truque:
+
+                                <input #textoProcurado (keyup)="0">
+                                <p>{{textoProcurado.value}}</p>
+
+                                Veja que realizamos um binding de evento keyup, aquele que é disparado quando digitamos no input. 
+                                Todo evento procura avaliar uma expressão, mas nesse caso passaremos "0". Apesar de bizarro, "0" é 
+                                uma expressão válida que nada faz, mas é suficiente para que o Angular atualize a view exibindo sempre
+                                 o novo valor do nosso input. Gambiarra ou truque? Eu prefiro chamar de truque! :)
+
+                                 ===============================================
+                                 KEY UP
+                                 ===============================================
+                                 Durante essa etapa, aprendemos a criar um Pipe destinado a filtrar nossa lista de fotos de acordo com a 
+                                 entrada do usuário. Apesar de o pipe ser executado corretamente e filtrar a lista (nosso modelo) de fotos, 
+                                 a tela não era atualizada. Isso acontecia porque o Angular só atualiza a view mediante um evento assíncrono. 
+                                 Sendo assim, realizamos o bind de evento (keyup)="0" para forçar o disparo do evento keyup, é disparado 
+                                 toda vez que digitamos algo no campo. Contudo, o valor "0" do bind de eventos pode causar estranhamento.
+
+                                Na verdade, poderia ser qualquer valor para resolver o problemas, mas 0 é o menor valor possível, excluindo 
+                                uma string em branco como "", mas que não é um valor válido. Então, se tivéssemos realizado um binding 
+                                como (keyup)="calopsita" também funcionaria.
+                            -->
+                            <input #textoProcurado (keyup)="0"  class="form-control" placeholder="filtrar pelo título da foto">
                         </div> 
                     </form>
                 </div> <!-- fim col-md-12 -->
             </div> <!-- fim row -->
             <br>
         <div class="row">
-            <painel *ngFor="let foto of fotos" titulo="{{foto.titulo}}" class="col-md-2">
+            <painel *ngFor="let foto of fotos | filtroPorTitulo:textoProcurado.value" titulo="{{foto.titulo | uppercase}}" class="col-md-2">
                 <foto titulo="{{foto.titulo}}" url="{{foto.url}}">
                 </foto>
             </painel>
