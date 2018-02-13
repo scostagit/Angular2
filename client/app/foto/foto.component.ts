@@ -5,6 +5,8 @@ import{ Component, Input } from "@angular/core";
     selector:"foto",
     templateUrl: './foto.component.html',
     styleUrls: ['./foto.component.css']
+    // ,encapsulation: ViewEncapsulation.Emulated,  encapsulation: ViewEncapsulation.Native
+
 })
 export class FotoComponent{
    @Input()
@@ -32,5 +34,8 @@ export class FotoComponent{
     Encapsulando CSS
     =================================================
     styleUrls: ['./foto.component.css']
-    Veja que através da configuração styleUrls dos nossos componentes indicamos em um array todos os CSS's utilizados por eles, em nosso caso, apenas um arquivo. Depois de darmos um tempo para o TypeScript compilar nosso arquivo e recarregarmos a página, vemos que nosso painel continua funcionando.
+    Veja que através da configuração styleUrls dos nossos componentes indicamos em um array todos os 
+    CSS's utilizados por eles, em nosso caso, apenas um arquivo. Depois de darmos um tempo para o 
+    TypeScript compilar nosso arquivo e recarregarmos a página, vemos que nosso painel continua
+     funcionando.
   */
