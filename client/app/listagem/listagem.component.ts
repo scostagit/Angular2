@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
-import {Http} from "@angular/http";
-import { Console } from '@angular/compiler/src/private_import_core';
+import { Component } from '@angular/core';
+import { Http } from '@angular/http';
+import { FotoComponent } from '../foto/foto.component';
+import { FotoService } from '../foto/foto.service';
 
 @Component({
     moduleId: module.id,
@@ -9,11 +10,12 @@ import { Console } from '@angular/compiler/src/private_import_core';
 })
 export class ListagemComponent { 
 
-    fotos: Object[] = [];
+    fotos: FotoComponent[] = [];
+    service: FotoService;
+    mensagem: string = '';
 
-    constructor(http:Http){
-        
-        /*
+    constructor(service: FotoService) {
+         /*
         =================================================================================================
         -- Então angular usa RxJS? ----------------------------------------------------------------------
         =================================================================================================
@@ -59,12 +61,48 @@ export class ListagemComponent {
             //console.log(this.fotos);
        // });
 
-        http.get('v1/fotos')
-            .map(res => res.json())
+       //         http.get('v1/fotos')
+//             .map(res => res.json())
+//             .subscribe(
+//                 fotos => this.fotos = fotos,
+//                 erro => console.log(erro)
+//             );
+//     }
+
+        this.service = service;
+        this.service.lista()
             .subscribe(
                 fotos => this.fotos = fotos,
                 erro => console.log(erro)
             );
     }
 
+    remove(foto) {
+        /**
+         * =============================
+         * --Change Detection
+         * =============================
+         * Angular só monitora a referência de this.fotos do nosso componente. 
+         * Se alguém incluir ou remover um novo item da lista ele não saberá. 
+         * Para isso, precisamos criar uma nova lista e atribuir essa lista em this.fotos. 
+         * Como estamos reatribuindo um valor para a variável o Angular desencadeará 
+         * seu mecanismo de deteção de mudança e renderizará a view. Nosso código fica assim:
+         */
+        this.service
+            .remove(foto)
+            .subscribe(
+                () => {                  
+                    let novasFotos = this.fotos.slice(0);
+                    let indice = novasFotos.indexOf(foto);
+                    novasFotos.splice(indice, 1);
+                    this.fotos = novasFotos; //Change detection
+                    this.mensagem = 'Foto removida com sucesso';
+                }, 
+                erro =>{
+                     console.log(erro);
+                     this.mensagem = 'Não foi possível remover a foto';
+                    }
+            );
+
+    }
 }

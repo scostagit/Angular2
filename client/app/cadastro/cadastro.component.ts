@@ -1,7 +1,8 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FotoComponent } from '../foto/foto.component';
-import { Http, Headers } from "@angular/http";
-import { FormGroup, FormBuilder , Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FotoService } from '../foto/foto.service';
+import { ActivatedRoute,  Router } from '@angular/router';
 
 @Component({
     moduleId: module.id,
@@ -9,33 +10,56 @@ import { FormGroup, FormBuilder , Validators } from '@angular/forms';
     templateUrl: './cadastro.component.html' 
 })
 export class CadastroComponent { 
+
     foto: FotoComponent = new FotoComponent();
-    http: Http;
+    service: FotoService;
     meuForm: FormGroup;
+    route: ActivatedRoute; // nova propriedade
+    mensagem: string = ''; // nova propriedade  
+    router: Router; //rotiador - vai redirecionar
 
-    constructor(http:Http, fb: FormBuilder){
-       this.http = http;
+    constructor(service: FotoService, fb: FormBuilder, route: ActivatedRoute, router : Router) {
+        this.route = route;
+        //rotiador
+        this.router = router; 
 
-       this.meuForm = fb.group({
-        titulo: ['', Validators.compose( [Validators.required, Validators.minLength(4)] )],
-        url:    ['', Validators.required],
-        descricao: [''],
-    });
+        this.service = service;
+
+        this.route.params.subscribe(params => {
+
+            let id = params['id'];
+
+            if(id) {
+
+                this.service.buscaPorId(id)
+                    .subscribe(
+                        foto => this.foto = foto,
+                        erro => console.log(erro));    
+            }            
+         });
+
+
+        this.meuForm = fb.group({
+            titulo: ['', Validators.compose(
+                [Validators.required, Validators.minLength(4)]
+            )],
+            url: ['', Validators.required],
+            descricao: [''],
+        });
     }
 
     cadastrar(event) {
         event.preventDefault();
         console.log(this.foto);
 
-         // cria uma instância de Headers
-         let headers = new Headers();
-         // Adiciona o tipo de conteúdo application/json 
-         headers.append('Content-Type', 'application/json');
- 
-         this.http.post('v1/fotos', JSON.stringify(this.foto), { headers: headers })
+        this.service.cadastra(this.foto)
             .subscribe(() => {
-                this.foto = new FotoComponent();
-                console.log('Foto salva com sucesso');
-            }, erro =>  console.log(erro));
+                this.foto = new FotoComponent();              
+                this.mensagem = 'Foto salva com sucesso'
+                this.router.navigate(['']);
+            }, erro => {
+                this.mensagem = "Ocorreu um erro ao tentar cadastrar"
+                console.log(erro);
+            });
     }
 }

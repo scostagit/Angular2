@@ -16,6 +16,8 @@ export class FotoComponent{
     url:string ="";
 
     descricao: string="";
+
+    _id:string;
 }
 
 /**
