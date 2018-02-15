@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ElementRef } from '@angular/core';
 
 @Component({
     moduleId: module.id,
@@ -8,6 +8,12 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PainelComponent implements OnInit {
     @Input() titulo: string;
+
+    private elemento: ElementRef;
+
+    constructor(elemento: ElementRef) {
+        this.elemento = elemento; 
+    }   
 
     ngOnInit(){
         //********************************************************************************* */
@@ -26,4 +32,21 @@ export class PainelComponent implements OnInit {
                         : this.titulo;
 
     }
+    /*
+    npm run typings search jquery ----save
+    npm install --save @types/angular --save
+
+    Jquery UI
+    npm install jqueryui-browser@1.10.2-1 --save
+npm install jquery-migrate@3.0.0 --save
+
+npm install --save @types/jqueryui
+    
+    */
+
+    fadeOut(cb) {   
+        // erro de compilação! Não entra o $!
+         $(this.elemento.nativeElement).fadeOut(cb);
+        
+     }
 }

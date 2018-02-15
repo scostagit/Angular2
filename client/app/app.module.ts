@@ -14,11 +14,13 @@ import { ListagemComponent }   from './listagem/listagem.component'; // importou
 import { routing } from './app.routes';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BotaoModule } from './botao/botao.module';
+import { ModalModule } from './modal/modal.module';
 
 
 @NgModule({
   imports:      [ BrowserModule, FotoModule, HttpModule, PainelModule, 
-                 routing, FormsModule ,ReactiveFormsModule, BotaoModule],
+                 routing, FormsModule ,ReactiveFormsModule, BotaoModule,
+                 ModalModule],
   declarations: [ AppComponent,CadastroComponent, ListagemComponent],
   bootstrap:    [ AppComponent ]
 })
