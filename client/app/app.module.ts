@@ -12,11 +12,13 @@ import { PainelModule } from './painel/painel.module';
 import { CadastroComponent }   from './cadastro/cadastro.component'; // importou
 import { ListagemComponent }   from './listagem/listagem.component'; // importou
 import { routing } from './app.routes';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';;
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BotaoModule } from './botao/botao.module';
 
 
 @NgModule({
-  imports:      [ BrowserModule, FotoModule, HttpModule, PainelModule, routing, FormsModule ,ReactiveFormsModule],
+  imports:      [ BrowserModule, FotoModule, HttpModule, PainelModule, 
+                 routing, FormsModule ,ReactiveFormsModule, BotaoModule],
   declarations: [ AppComponent,CadastroComponent, ListagemComponent],
   bootstrap:    [ AppComponent ]
 })

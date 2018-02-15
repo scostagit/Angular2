@@ -88,21 +88,24 @@ export class ListagemComponent {
          * Como estamos reatribuindo um valor para a variável o Angular desencadeará 
          * seu mecanismo de deteção de mudança e renderizará a view. Nosso código fica assim:
          */
-        this.service
-            .remove(foto)
-            .subscribe(
-                () => {                  
-                    let novasFotos = this.fotos.slice(0);
-                    let indice = novasFotos.indexOf(foto);
-                    novasFotos.splice(indice, 1);
-                    this.fotos = novasFotos; //Change detection
-                    this.mensagem = 'Foto removida com sucesso';
-                }, 
-                erro =>{
-                     console.log(erro);
-                     this.mensagem = 'Não foi possível remover a foto';
-                    }
-            );
+
+         if(confirm('Would you like to remove this picture?')){
+            this.service
+                .remove(foto)
+                .subscribe(
+                    () => {                  
+                        let novasFotos = this.fotos.slice(0);
+                        let indice = novasFotos.indexOf(foto);
+                        novasFotos.splice(indice, 1);
+                        this.fotos = novasFotos; //Change detection
+                        this.mensagem = 'Foto removida com sucesso';
+                    }, 
+                    erro =>{
+                        console.log(erro);
+                        this.mensagem = 'Não foi possível remover a foto';
+                        }
+                );
+            }
 
     }
 }
